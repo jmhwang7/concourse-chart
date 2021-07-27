@@ -724,6 +724,14 @@ concourse:
       ##
       agentPort: 8125
 
+      ## Use unix domain socket (uds), overrides `agentHost` and `agentPort`
+      ##
+      agentUseUDS: false
+
+      ## Datadog agent unix domain socket (uds) file to expose dogstatsd metrics
+      ##
+      agentUDSFilepath: /var/run/datadog/dsd.socket
+
       ## Prefix for all metrics to easily find them in Datadog
       ##
       prefix: "concourse.ci"

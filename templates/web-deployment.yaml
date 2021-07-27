@@ -675,6 +675,10 @@ spec:
               value: {{ .Values.concourse.web.metrics.attribute | quote }}
             {{- end }}
             {{- if .Values.concourse.web.datadog.enabled }}
+            {{- if .Values.concourse.web.datadog.agentUseUDS }}
+            - name: CONCOURSE_DATADOG_AGENT_UDS_FILEPATH
+              value: {{ .Values.concourse.web.datadog.agentUDSFilepath | quote }}
+            {{- else }}
             - name: CONCOURSE_DATADOG_AGENT_HOST
             {{- if .Values.concourse.web.datadog.agentHostUseHostIP }}
               valueFrom:
@@ -685,6 +689,7 @@ spec:
             {{- end }}
             - name: CONCOURSE_DATADOG_AGENT_PORT
               value: {{ .Values.concourse.web.datadog.agentPort | quote }}
+            {{- end }}
             {{- if .Values.concourse.web.datadog.prefix }}
             - name: CONCOURSE_DATADOG_PREFIX
               value: {{ .Values.concourse.web.datadog.prefix | quote }}
@@ -1451,6 +1456,11 @@ spec:
               mountPath: {{ .Values.web.syslogSecretsPath | quote }}
               readOnly: true
             {{- end }}
+            {{- if .Values.concourse.web.datadog.agentUseUDS }}
+            - name: dsdsocket
+              mountPath: {{ .Values.concourse.web.datadog.agentUDSFilepath | dir | quote }}
+              readOnly: true
+            {{- end }}
             - name: auth-keys
               mountPath: {{ .Values.web.authSecretsPath | quote }}
               readOnly: true
@@ -1569,6 +1579,11 @@ spec:
             items:
               - key: syslog-ca-cert
                 path: ca.cert
+        {{- end }}
+        {{- if .Values.concourse.web.datadog.agentUseUDS }}
+        - name: dsdsocket
+          hostPath:
+            path: {{ .Values.concourse.web.datadog.agentUDSFilepath | dir | printf "%s/"| quote }}
         {{- end }}
         - name: auth-keys
           secret:

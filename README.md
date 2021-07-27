@@ -184,6 +184,8 @@ The following table lists the configurable parameters of the Concourse chart and
 | `web.datadog.agentHostUseHostIP` | Use IP of Pod's node overrides `agentHost` | `false` |
 | `web.datadog.agentHost` | Datadog Agent host | `127.0.0.1` |
 | `web.datadog.agentPort` | Datadog Agent port | `8125` |
+| `web.datadog.agentUseUDS` | Use of UDS overrides overrides `agentHost` and `agentPort` | `false` |
+| `web.datadog.agentUDSFilepath` | Datadog Agent unix domains socket (uds) filepath; Used when `agentUseUDS` is `true` | `/var/run/datadog/dsd.socket` |
 | `web.datadog.enabled` | Enable or disable Datadog metrics | `false` |
 | `web.datadog.prefix` | Prefix for emitted metrics | `"concourse.ci"` |
 | `web.enabled` | Enable or disable the web component | `true` |
